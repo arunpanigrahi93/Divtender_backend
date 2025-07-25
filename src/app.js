@@ -1,27 +1,19 @@
 const express = require("express");
-
+const { adminAuth } = require("../middleware/adminAuth");
 const app = express();
 
-app.use(
-  "/user",
-  [
-    (req, res, next) => {
-      next();
+app.use("/admin", adminAuth);
+app.use("/user", (req, res) => {
+  res.send("user check");
+});
 
-      // res.send("response 1");
-    },
-    (req, res, next) => {
-      next();
-    },
-  ],
-  (req, res) => {
-    res.send("Response 3");
-  },
-  (req, res) => {
-    res.send("Response 4");
-  }
-);
+app.use("/admin/user", (req, res) => {
+  res.send("Admin user");
+});
 
+app.use("/admin/test", (req, res) => {
+  res.send("Admin Test");
+});
 app.listen(3000, () => {
   console.log("Server running succesfully");
 });
