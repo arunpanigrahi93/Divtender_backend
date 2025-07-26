@@ -1,7 +1,14 @@
 const express = require("express");
-require("../config/database");
+const { connectDB } = require("../config/database");
 const app = express();
 
-app.listen(3000, () => {
-  console.log("Server running succesfully");
-});
+connectDB()
+  .then(() => {
+    console.log("DB connected");
+    app.listen(3000, () => {
+      console.log("Server running succesfully");
+    });
+  })
+  .catch((err) => {
+    console.error("DB not connected");
+  });
