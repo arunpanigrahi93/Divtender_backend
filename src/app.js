@@ -2,15 +2,34 @@ const express = require("express");
 const { connectDB } = require("./config/database");
 const app = express();
 const User = require("./model/user");
+const { validateSignup } = require("./utils/validateSignup");
+const bcrypt = require("bcrypt");
 
 // this is middleware and activate all routers converted json obj
 app.use(express.json());
 
+// sign up
 app.post("/signup", async (req, res) => {
   // Creating new instance of the User model
-  console.log(req.body);
-  const user = new User(req.body);
+
+  // console.log(req.body);
   try {
+    //validate req using any helper function
+    validateSignup(req);
+
+    //encript password
+    const { firstName, lastName, emailId, password } = req.body;
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    // console.log(passwordHash);
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
+
     await user.save();
     res.send("user created successfully");
   } catch (err) {
