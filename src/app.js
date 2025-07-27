@@ -15,6 +15,7 @@ app.post("/signup", async (req, res) => {
     res.send("user created successfully");
   } catch (err) {
     console.error("user not created:" + err.message);
+    res.send("user not created:" + err.message);
   }
 });
 
@@ -51,12 +52,29 @@ app.get("/feed", async (req, res) => {
 app.patch("/user", async (req, res) => {
   const userId = req.body.userId;
   const data = req.body;
+
+  const ALLOWED_UPDATES = [
+    "userId",
+    "photoUrl",
+    "about",
+    "gender",
+    "age",
+    "skills",
+  ];
+
   try {
+    // not executes unnecessary extra fields
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+    if (!isUpdateAllowed) {
+      res.status(400).send("Update not allowed");
+    }
     // await User.findByIdAndUpdate({ _id: userId }, data);
-    await User.findByIdAndUpdate(userId, data);
+    await User.findByIdAndUpdate(userId, data, { runValidators: true });
     res.send("user udated successfully");
   } catch (err) {
-    res.send("somenthing went wrong");
+    res.status(400).send("Update Failed:" + err.message);
   }
 });
 
