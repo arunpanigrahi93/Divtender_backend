@@ -8,6 +8,31 @@ const bcrypt = require("bcrypt");
 // this is middleware and activate all routers converted json obj
 app.use(express.json());
 
+// login
+
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+
+    //first validate email is present or not
+
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("Invalid credentials");
+    }
+
+    //next compare password with db
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (isPasswordValid) {
+      res.send("User login succesfully");
+    } else {
+      throw new Error("Invalid credentials");
+    }
+  } catch (err) {
+    res.send("Error:" + err.message);
+  }
+});
+
 // sign up
 app.post("/signup", async (req, res) => {
   // Creating new instance of the User model
