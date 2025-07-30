@@ -14,7 +14,6 @@ app.use(cookieParser());
 const port = 3000;
 
 // login
-
 app.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
@@ -60,7 +59,6 @@ app.get("/profile", async (req, res) => {
     console.log("Logged In User is :" + _id);
 
     //finding by id
-
     const user = await User.findById(_id);
 
     if (!user) {
