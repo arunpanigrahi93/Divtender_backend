@@ -11,6 +11,8 @@ const jwt = require("jsonwebtoken");
 app.use(express.json());
 app.use(cookieParser());
 
+const port = 3000;
+
 // login
 
 app.post("/login", async (req, res) => {
@@ -171,7 +173,7 @@ app.delete("/user", async (req, res) => {
 connectDB()
   .then(() => {
     console.log("DB connected");
-    app.listen(3000, () => {
+    app.listen(port, () => {
       console.log("Server running succesfully");
     });
   })
