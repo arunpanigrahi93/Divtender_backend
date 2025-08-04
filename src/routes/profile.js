@@ -86,17 +86,17 @@ profileRoute.delete("/user", async (req, res) => {
 });
 
 //get all user id's from DB
-profileRoute.get("/feed", async (req, res) => {
-  try {
-    const user = await User.find({});
-    if (!user) {
-      res.send("No users found");
-    } else {
-      res.send(user);
-    }
-  } catch (err) {
-    res.status(400).send("something went wrong");
-  }
-});
+// profileRoute.get("/feed", async (req, res) => {
+//   try {
+//     const user = await User.find({});
+//     if (!user) {
+//       res.send("No users found");
+//     } else {
+//       res.send(user);
+//     }
+//   } catch (err) {
+//     res.status(400).send("something went wrong");
+//   }
+// });
 
 module.exports = profileRoute;
