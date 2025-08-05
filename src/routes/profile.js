@@ -74,16 +74,16 @@ profileRoute.patch("/user/:userId", async (req, res) => {
 });
 
 //delete user by id
-profileRoute.delete("/user", async (req, res) => {
-  const userId = req.body.userId;
-  try {
-    //User.findByIdAndDelete({userId,_id})
-    await User.findByIdAndDelete(userId);
-    res.send("user delete succesfully");
-  } catch (err) {
-    res.send("something went wrong");
-  }
-});
+// profileRoute.delete("/user", async (req, res) => {
+//   const userId = req.body.userId;
+//   try {
+//     //User.findByIdAndDelete({userId,_id})
+//     await User.findByIdAndDelete(userId);
+//     res.send("user delete succesfully");
+//   } catch (err) {
+//     res.send("something went wrong");
+//   }
+// });
 
 //get all user id's from DB
 // profileRoute.get("/feed", async (req, res) => {
