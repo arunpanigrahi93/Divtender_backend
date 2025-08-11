@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 //get profile
 
-profileRoute.get("/profile", async (req, res) => {
+profileRoute.get("/profile/view", async (req, res) => {
   try {
     const cookies = req.cookies;
 
@@ -72,31 +72,5 @@ profileRoute.patch("/user/:userId", async (req, res) => {
     res.status(400).send("Update Failed:" + err.message);
   }
 });
-
-//delete user by id
-// profileRoute.delete("/user", async (req, res) => {
-//   const userId = req.body.userId;
-//   try {
-//     //User.findByIdAndDelete({userId,_id})
-//     await User.findByIdAndDelete(userId);
-//     res.send("user delete succesfully");
-//   } catch (err) {
-//     res.send("something went wrong");
-//   }
-// });
-
-//get all user id's from DB
-// profileRoute.get("/feed", async (req, res) => {
-//   try {
-//     const user = await User.find({});
-//     if (!user) {
-//       res.send("No users found");
-//     } else {
-//       res.send(user);
-//     }
-//   } catch (err) {
-//     res.status(400).send("something went wrong");
-//   }
-// });
 
 module.exports = profileRoute;
