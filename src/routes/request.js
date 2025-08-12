@@ -3,9 +3,9 @@ const userAuth = require("../middlewares/auth");
 const ConnectionRequest = require("../model/connectionRequestModel");
 const User = require("../model/user");
 
-const requestRoute = express.Router();
+const requestRouter = express.Router();
 
-requestRoute.post(
+requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
   async (req, res) => {
@@ -61,7 +61,7 @@ requestRoute.post(
   }
 );
 
-requestRoute.post(
+requestRouter.post(
   "/request/review/:status/:requestId",
   userAuth,
   async (req, res) => {
@@ -95,4 +95,4 @@ requestRoute.post(
   }
 );
 
-module.exports = requestRoute;
+module.exports = requestRouter;

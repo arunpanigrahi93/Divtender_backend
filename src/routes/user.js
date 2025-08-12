@@ -1,6 +1,5 @@
 const express = require("express");
 const userAuth = require("../middlewares/auth");
-const { Connection } = require("mongoose");
 const ConnectionRequest = require("../model/connectionRequestModel");
 
 const userRouter = express.Router();
@@ -30,17 +29,16 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
     res.status(400).send("ERROR :" + err.message);
   }
 });
-
 userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
-
+    // console.log(loggedInUser);
     const connectionRequests = await ConnectionRequest.find({
       $or: [
         { toUserId: loggedInUser._id, status: "accepted" },
         { fromUserId: loggedInUser._id, status: "accepted" },
       ],
-    }).populate("fromUserId", [
+    }).populate("fromUserId toUserId", [
       "firstName",
       "lastName",
       "photoUrl",
@@ -50,12 +48,18 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       "skills",
     ]);
 
-    //we need to extract fromuseriddata form all info thru map
+    const data = connectionRequests.map((row) => {
+      if (row.fromUserId._id.toString() == loggedInUser._id.toString()) {
+        return row.toUserId;
+      }
+      return row.fromUserId;
+    });
 
-    const data = connectionRequests.map((row) => row.fromUserId);
-    res.json({ data });
-  } catch (err) {
-    res.status(400).send("ERROR :" + err.message);
+    res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    res.status(400).send("ERROR :" + error.message);
   }
 });
 
