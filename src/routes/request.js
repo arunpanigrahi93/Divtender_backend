@@ -1,6 +1,7 @@
 const express = require("express");
 const userAuth = require("../middlewares/auth");
 const ConnectionRequest = require("../model/connectionRequestModel");
+const User = require("../model/user");
 
 const requestRoute = express.Router();
 
@@ -18,6 +19,13 @@ requestRoute.post(
       return res
         .status(400)
         .json({ message: "invalid status type: " + status });
+    }
+
+    // check the touserid is existing in db or not
+
+    const toUser = await User.findById(toUserId);
+    if (!toUser) {
+      return res.status(400).json({ message: "user not found" });
     }
     // alrdy connection res send fromuserid to touserid or touserid to fromuserid
 
