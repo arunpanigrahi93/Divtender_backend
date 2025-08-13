@@ -45,7 +45,7 @@ authRouter.post("/login", async (req, res) => {
 
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("Invalid credentials");
+      res.status(401).send("Invalid credentials");
     }
 
     //next compare password with db
@@ -57,7 +57,7 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token);
       res.send(user);
     } else {
-      throw new Error("Invalid credentials");
+      res.status(401).send("Invalid credentials");
     }
   } catch (err) {
     res.send("Error:" + err.message);
