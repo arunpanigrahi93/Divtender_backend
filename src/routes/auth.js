@@ -16,7 +16,16 @@ authRouter.post("/signup", async (req, res) => {
     validateSignup(req);
 
     //encript password
-    const { firstName, lastName, emailId, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      emailId,
+      password,
+      photoUrl,
+      age,
+      about,
+      gender,
+    } = req.body;
 
     const passwordHash = await bcrypt.hash(password, 10);
     // console.log(passwordHash);
@@ -26,13 +35,17 @@ authRouter.post("/signup", async (req, res) => {
       lastName,
       emailId,
       password: passwordHash,
+      photoUrl,
+      age,
+      about,
+      gender,
     });
 
     await user.save();
-    res.send("user created successfully");
+    return res.send("user created successfully");
   } catch (err) {
     console.error("user not created:" + err.message);
-    res.send("user not created:" + err.message);
+    return res.send("user not created:" + err.message);
   }
 });
 
@@ -45,7 +58,7 @@ authRouter.post("/login", async (req, res) => {
 
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      res.status(401).send("Invalid credentials");
+      res.status(401).send("ERROR : Invalid credentials");
     }
 
     //next compare password with db
@@ -57,7 +70,7 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token);
       res.send(user);
     } else {
-      res.status(401).send("Invalid credentials");
+      res.status(401).send("ERROR : Invalid credentials");
     }
   } catch (err) {
     res.send("Error:" + err.message);

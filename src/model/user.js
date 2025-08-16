@@ -37,8 +37,7 @@ const userSchema = new mongoose.Schema(
     },
     age: {
       type: Number,
-      //allow only 18 and above
-      age: 18,
+      // age: 18,
     },
     gender: {
       type: String,

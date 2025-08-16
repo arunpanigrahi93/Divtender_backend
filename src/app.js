@@ -9,14 +9,15 @@ const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const cors = require("cors");
 
-// this is middleware and activate all routers converted json obj
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // your React app's URL
     credentials: true,
   })
 );
 
+// Handle preflight requests
+// app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 
